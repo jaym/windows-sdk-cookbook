@@ -35,6 +35,14 @@ class WindowsSdkCookbook
           :kind_of => [String]
         )
       end
+
+      def install_path(arg=nil)
+        set_or_return(
+          :install_path,
+          arg,
+          :kind_of => [String]
+        )
+      end
     end
   end
 
@@ -82,7 +90,14 @@ class WindowsSdkCookbook
         end.join(' ')
 
         converge_by "Installing Windows SDK Features #{all_features}" do
-          shell_out!("\"#{remote_resource.path}\" /norestart /quiet /features #{all_features}")
+          args = Array.new.tap do |args|
+            args << "\"#{remote_resource.path}\""
+            args << "/norestart"
+            args << "/quiet"
+            args << "/installpath \"#{new_resource.install_path}\"" if new_resource.install_path
+            args << "/features #{all_features}"
+          end
+          shell_out!(args.join(" "))
         end
       end
     end
