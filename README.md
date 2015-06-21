@@ -28,6 +28,8 @@ features provided with the Windows SDK.
   - `:msi_tools`: MSI Tools
   - `:netfx_software_development_kit`: .Net Frame 4.5 Software Development Kit
 
+- `:install_path`: Optional. The location where the SDK will be installed
+
 #### Examples
 
 Install all features:
