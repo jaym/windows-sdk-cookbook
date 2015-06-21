@@ -16,7 +16,7 @@ features provided with the Windows SDK.
 - `:uninstall`: Uninstall the given feature(s)
 
 #### Attribute Parameters
-- :features: Name Attribute. A feature(Symbol), an Array of features, or `:all`
+- `:features`: Name Attribute. A feature(Symbol), an Array of features, or `:all`
 
   Valid features:
   - `:windows_software_development_kit`: The Microsoft Windows Software 
