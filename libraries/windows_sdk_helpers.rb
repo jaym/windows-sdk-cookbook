@@ -1,3 +1,5 @@
+require 'csv'
+
 class WindowsSdkCookbook
   class Helpers
     extend Chef::Mixin::ShellOut
@@ -48,9 +50,14 @@ class WindowsSdkCookbook
     def self.installed_version(feature_name)
       command = "Get-WmiObject -class Win32_Product "\
         "| Where-Object {$_.IdentifyingNumber -eq '#{uid_for_feature(feature_name)}'} "\
-        "| Select-Object IdentifyingNumber, Name, Version | ConvertTo-Json"
+        "| Select-Object IdentifyingNumber, Name, Version | ConvertTo-CSV -NoTypeInformation"
       status = powershell_out!(command)
-      Chef::JSONCompat.parse(status.stdout)
+      info = CSV.parse(status.stdout.strip, :headers => :first_line)
+      if info.length == 0
+        nil
+      else
+        Hash[info[0]]
+      end
     end
 
     def self.uid_for_feature(feature_name)
