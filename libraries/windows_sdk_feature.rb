@@ -1,4 +1,3 @@
-require_relative "./windows_sdk_helpers"
 class WindowsSdkCookbook
   class Resource
     class Feature < Chef::Resource
