@@ -55,8 +55,8 @@ class WindowsSdkCookbook
       command = "Get-WmiObject -class Win32_Product "\
         "| Where-Object {$_.IdentifyingNumber -eq '#{uid_for_feature(feature_name)}'} "\
         "| Select-Object IdentifyingNumber, Name, Version | ConvertTo-CSV -NoTypeInformation"
-      status = powershell_out!(command)
-      info = CSV.parse(status.stdout.strip, :headers => :first_line)
+      stdout = powershell_out!(command)
+      info = CSV.parse(stdout.strip, :headers => :first_line)
       if info.length == 0
         nil
       else
@@ -77,7 +77,10 @@ class WindowsSdkCookbook
     end
 
     def self.powershell_out!(cmd)
-      shell_out!("powershell.exe -NoLogo -NonInteractive -NoProfile -ExecutionPolicy Unrestricted -InputFormat None -Command \"#{cmd}\"")
+      Dir::Tmpname.create('windows-sdk-cmdlet') do |path|
+        shell_out!("powershell.exe -NoLogo -NonInteractive -NoProfile -ExecutionPolicy Unrestricted -InputFormat None -Command \"#{cmd}\" > #{path}")
+        File.read(path)
+      end
     end
   end
 end
