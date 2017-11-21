@@ -10,4 +10,4 @@ supports 'windows'
 source_url 'https://github.com/jdmundrawala/windows-sdk-cookbook'
 issues_url 'https://github.com/jdmundrawala/windows-sdk-cookbook/issues'
 
-version '1.0.2'
+version '1.1.0'
